@@ -11,8 +11,9 @@ module.exports = {
         directory: "./data/seeds"
     },
     pool: {
-        aftercreate: (conn, dump) => {
-            conn.run("PRAGMA foreign_keys = ON")
-        }
+        afterCreate: (conn, done) => {
+            conn.run("PRAGMA foreign_keys = ON", done)
+        },
+        propagateCreateError: false
     }
 }
