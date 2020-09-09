@@ -31,7 +31,6 @@ router.post("/signup", async (req, res, next) => {
 })
 
 
-
 // * login end point (post)
 router.post("/login", async (req, res, next) => {
     try {
@@ -83,8 +82,6 @@ router.get("/logout", middleware_access.restrict(), async (req, res, next) => {
 })
 
 
-
-
 // * get all users when validated @ admin level (get w/ middleware)
 router.get("/users", middleware_access.restrict("admin"), async (req, res, next) => {
     try {
@@ -108,8 +105,5 @@ router.get("/users/:department", middleware_access.restrict("admin"), async (req
 
 
 })
-
-
-
 
 module.exports = router;
