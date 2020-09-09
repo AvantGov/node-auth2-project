@@ -2,6 +2,7 @@
 const express = require("express");
 const helmet = require("helmet"); 
 const cors = require("cors");
+const env = require("dotenv/config");
 
 // * access depend. 
 // const application_router = require("./routers/application_router")
