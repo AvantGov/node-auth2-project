@@ -36,6 +36,6 @@ function restrict(role) {
     }
 }
 
-modules.export = {
+module.exports = {
     restrict
 }

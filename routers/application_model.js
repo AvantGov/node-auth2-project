@@ -6,7 +6,7 @@ const add = async function(user) {
     const[id] = await database_access("users")
         .insert(user)
     
-    return findById(id)
+    return getUserById(id)
 }
 
 // * find all users 
@@ -40,7 +40,7 @@ const getUserByFilter = (filter) => {
 }
 
 
-modules.export = {
+module.exports = {
     add,
     getUsers,
     getUsersByDept,

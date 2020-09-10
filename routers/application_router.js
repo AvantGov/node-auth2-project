@@ -10,7 +10,8 @@ router.post("/signup", async (req, res, next) => {
     try {
         const { username, password } = req.body
         const user = await user_access.getUserByFilter({ username })
-
+        console.log(user)
+        
         if (user) {
             res.status(409).json({
                 message: "record already exists"
@@ -19,7 +20,10 @@ router.post("/signup", async (req, res, next) => {
 
         const newUser = await user_access.add({
             username: username,
-            password: await secure.hash(password, 10)
+            password: await secure.hash(password, 10),
+            access_level: "admin",
+            department: "marketing"
+
         })
 
         res.status(204).json(newUser)
@@ -42,6 +46,7 @@ router.post("/login", async (req, res, next) => {
             res.status(401).json({
                 message: "invalid credentials"
             })
+            return
         }
 
         const valid_password = await secure.compare(password, user.password)
@@ -50,6 +55,7 @@ router.post("/login", async (req, res, next) => {
             res.status(401).json({
                 messages: "invalid credentials"
             })
+            return
         }
 
         req.session.user = user
@@ -57,6 +63,8 @@ router.post("/login", async (req, res, next) => {
         res.json({
             message: `welcome, ${user.username}`
         })
+
+        return
 
     } catch(error) { 
         next(error) 
@@ -67,7 +75,7 @@ router.post("/login", async (req, res, next) => {
 
 
 // * log out endpoint (get w/ validation middleware)
-router.get("/logout", middleware_access.restrict(), async (req, res, next) => {
+router.post("/logout", middleware_access.restrict(), async (req, res, next) => {
     try {
         req.session.destroy((error) => {
             if (error) {
